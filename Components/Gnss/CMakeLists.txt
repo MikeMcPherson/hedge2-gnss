@@ -23,9 +23,17 @@ set(SOURCE_FILES
 # `Ref/SignalGen/CMakeLists.txt` will be named `Ref_SignalGen`.  `Ref/SignalGen`
 # is an acceptable alternative and will be internally converted to `Ref_SignalGen`.
 #
-# set(MOD_DEPS
-#   MyPackage_MyOtherModule
-# )
+set(MOD_DEPS
+  NMEAParserLib
+)
+
+#
+# Fetch the VisualGPS NMEAParserLib library from github
+# and add it to the project.
+#
+
+include_directories("${FPRIME_PROJECT_ROOT}/lib/NMEAParserLib")
+add_subdirectory("${FPRIME_PROJECT_ROOT}/lib/NMEAParserLib" "${CMAKE_BINARY_DIR}/NMEAParserLib")
 
 register_fprime_module()
 
