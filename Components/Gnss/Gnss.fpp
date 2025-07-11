@@ -4,8 +4,8 @@ module Gnss {
 
         # One async command/port is required for active components
         # This should be overridden by the developers with a useful command/port
-        @ TODO
-        async command TODO opcode 0
+        @ GNSS enable command
+        async command gnssEnable opcode 0
 
         ##############################################################################
         #### Uncomment the following examples to start customizing your component ####
@@ -16,12 +16,18 @@ module Gnss {
 
         # @ Example telemetry counter
         # telemetry ExampleCounter: U64
+        telemetry nmeaSentence: string
+        telemetry numSentences: U32
 
         # @ Example event
         # event ExampleStateEvent(example_state: Fw.On) severity activity high id 0 format "State set to {}"
+        event gnssEnabled(enabled: Fw.On) severity activity high id 1 format "GNSS enabled: {}"
 
         # @ Example port: receiving calls from the rate group
         # sync input port run: Svc.Sched
+        async input port gnssRecv: Drv.ByteStreamRecv
+        output port gnssSend: Drv.ByteStreamSend
+        output port deallocate: Fw.BufferSend
 
         # @ Example parameter
         # param PARAMETER_NAME: U32

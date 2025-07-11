@@ -29,16 +29,31 @@ namespace Gnss {
       //! Destroy Gnss object
       ~Gnss();
 
+      U32 m_numSentences = 0; //!< Number of sentences received
+
+    PRIVATE:
+
+      // ----------------------------------------------------------------------
+      // Handler implementations for typed input ports
+      // ----------------------------------------------------------------------
+
+      //! Handler implementation for gnssRecv
+      void gnssRecv_handler(
+          FwIndexType portNum, //!< The port number
+          Fw::Buffer& recvBuffer,
+          const Drv::RecvStatus& recvStatus
+      ) override;
+
     PRIVATE:
 
       // ----------------------------------------------------------------------
       // Handler implementations for commands
       // ----------------------------------------------------------------------
 
-      //! Handler implementation for command TODO
+      //! Handler implementation for command gnssEnable
       //!
-      //! TODO
-      void TODO_cmdHandler(
+      //! GNSS enable command
+      void gnssEnable_cmdHandler(
           FwOpcodeType opCode, //!< The opcode
           U32 cmdSeq //!< The command sequence number
       ) override;
