@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# fprime
+fprime-venv
+build-*
+gnssDeployment/logs/*
