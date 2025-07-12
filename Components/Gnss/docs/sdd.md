@@ -56,6 +56,7 @@ Add sequence diagrams here
 |altitude|---|
 |speed|---|
 |heading|---|
+|---|---|
 
 ## Unit Tests
 Add unit test descriptions in the chart below
