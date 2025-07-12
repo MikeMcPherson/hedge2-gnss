@@ -1,18 +1,16 @@
 # Gnss::Gnss
 
-GNSS read, parse, process, and log
+Read NMEA sentences from the GNSS receiver, parse them, 
+process the data, update telemetry, update logs, 
+and store the data for other Components
 
 ## Usage Examples
-Add usage examples here
 
 ### Diagrams
-Add diagrams here
 
 ### Typical Usage
-And the typical usage of the component here
 
 ## Class Diagram
-Add a class diagram here
 
 ## Port Descriptions
 | Name | Description |
@@ -29,7 +27,6 @@ Add component states in the chart below
 | Fw::On::ON | GNSS enabled |
 
 ## Sequence Diagrams
-Add sequence diagrams here
 
 ## Parameters
 | Name | Description |
@@ -44,18 +41,18 @@ Add sequence diagrams here
 | Name | Description |
 |---|---|
 | gnssState | GNSS enabled or disabled |
-| fixValidity | Valid fix |
+| fixValidity | Valid fix acquired |
 | gpsQuality | GPS quality field from the NMEA GGA sentence |
 
 ## Telemetry
 | Name | Description |
 |---|---|
-| numSentences |---|
-| latitude |---|
-| longitude |---|
-| altitude |---|
-| speed |---|
-| heading |---|
+| numSentences | Number of NMEA sentences processed since GNSS enabled |
+| latitude | GGA latitude, in degrees |
+| longitude | GGA longitude, in degrees |
+| altitude | GGA altitude, in meters |
+| speed | RMC speed, in knots |
+| heading | RMC track angle, in degrees from True North |
 
 ## Unit Tests
 Add unit test descriptions in the chart below
