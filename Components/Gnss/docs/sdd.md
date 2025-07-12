@@ -15,6 +15,7 @@ And the typical usage of the component here
 Add a class diagram here
 
 ## Port Descriptions
+|---|---|
 | Name | Description |
 |gnssRecv|Receive GNSS sentences|
 |gnssSend|Send commands to the GNSS receiver|
@@ -22,6 +23,7 @@ Add a class diagram here
 
 ## Component States
 Add component states in the chart below
+|---|---|
 | Name | Description |
 |Fw::On::OFF|GNSS disabled|
 |Fw::On::ON|GNSS enabled|
@@ -31,18 +33,22 @@ Add sequence diagrams here
 
 ## Parameters
 | Name | Description |
+|---|---|
 
 ## Commands
+|---|---|
 | Name | Description |
 |gnssEnable|Enable or disable GNSS|
 
 ## Events
+|---|---|
 | Name | Description |
 |gnssState|GNSS enabled or disabled|
 |fixValidity|Valid fix|
 |gpsQuality|GPS quality field from the NMEA GGA sentence|
 
 ## Telemetry
+|---|---|
 | Name | Description |
 |numSentences|---|
 |latitude|---|
@@ -64,6 +70,6 @@ Add requirements in the chart below
 |---|---|---|
 
 ## Change Log
-| Date | Description |
-|---|---|
-|---| Initial Draft |
+| Date | Description | Author |
+|---|---|---|
+|12 July 2025| Initial Draft | MRM |
