@@ -16,8 +16,15 @@ module Gnss {
 
         # @ Example telemetry counter
         # telemetry ExampleCounter: U64
-        telemetry nmeaSentence: string
         telemetry numSentences: U32
+        telemetry gnssEnabled: Fw.On
+        telemetry validFix: bool
+        telemetry gpsQuality: U8
+        telemetry latitude: F64
+        telemetry longitude: F64
+        telemetry altitude: F64
+        telemetry speed: F64
+        telemetry heading: F64
 
         # @ Example event
         # event ExampleStateEvent(example_state: Fw.On) severity activity high id 0 format "State set to {}"

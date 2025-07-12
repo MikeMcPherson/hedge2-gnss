@@ -30,6 +30,7 @@ namespace Gnss {
       ~Gnss();
 
       U32 m_numSentences = 0; //!< Number of sentences received
+      bool m_validFix = false; //!< Valid fix flag
 
     PRIVATE:
 
