@@ -4,6 +4,16 @@ Read NMEA sentences from the GNSS receiver, parse them,
 process the data, update telemetry, update logs, 
 and store the data for other Components
 
+## Requirements
+Add requirements in the chart below
+| Name | Description | Validation |
+|---|---|---|
+| Gnss-01 | Shall read NMEA sentences from GNSS receiver | Unit test |
+| Gnss-02 | Shall parse NMEA sentences | Unit test |
+| Gnss-03 | Shall extract fix quality, position, altitude, speed, and heading from NMEA sentences | Unit test |
+| Gnss-04 | Shall emit telemetry and log changes in that data | Unit test |
+| Gnss-05 | Shall make that data available for use by other Components | Unit test |
+
 ## Usage Examples
 
 ### Diagrams
@@ -23,8 +33,8 @@ and store the data for other Components
 Add component states in the chart below
 | Name | Description |
 |---|---|
-| Fw::On::OFF | GNSS disabled |
-| Fw::On::ON | GNSS enabled |
+| GNSS disabled | Fw::On::OFF |
+| GNSS enabled | Fw::On::ON |
 
 ## Sequence Diagrams
 
@@ -35,7 +45,7 @@ Add component states in the chart below
 ## Commands
 | Name | Description |
 |---|---|
-| gnssEnable | Enable or disable GNSS |
+| gnssEnable | Enable or disable GNSS, argument Fw:On |
 
 ## Events
 | Name | Description |
@@ -48,23 +58,17 @@ Add component states in the chart below
 | Name | Description |
 |---|---|
 | numSentences | Number of NMEA sentences processed since GNSS enabled |
-| latitude | GGA latitude, in degrees |
-| longitude | GGA longitude, in degrees |
-| altitude | GGA altitude, in meters |
-| speed | RMC speed, in knots |
-| heading | RMC track angle, in degrees from True North |
+| latitude | current GGA latitude, in degrees |
+| longitude | current GGA longitude, in degrees |
+| altitude | current GGA altitude, in meters |
+| speed | current RMC speed, in knots |
+| heading | current RMC track angle, in degrees from True North |
 
 ## Unit Tests
 Add unit test descriptions in the chart below
 | Name | Description | Output | Coverage |
 |---|---|---|---|
 |---|---|---|---|
-
-## Requirements
-Add requirements in the chart below
-| Name | Description | Validation |
-|---|---|---|
-|---|---|---|
 
 ## Change Log
 | Date | Description | Author |
