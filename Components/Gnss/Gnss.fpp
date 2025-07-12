@@ -17,9 +17,6 @@ module Gnss {
         # @ Example telemetry counter
         # telemetry ExampleCounter: U64
         telemetry numSentences: U32
-        telemetry gnssEnabled: Fw.On
-        telemetry validFix: bool
-        telemetry gpsQuality: U8
         telemetry latitude: F64
         telemetry longitude: F64
         telemetry altitude: F64
@@ -28,7 +25,9 @@ module Gnss {
 
         # @ Example event
         # event ExampleStateEvent(example_state: Fw.On) severity activity high id 0 format "State set to {}"
-        event gnssEnabled(enabled: Fw.On) severity activity high id 1 format "GNSS enabled: {}"
+        event gnssState(enabled: Fw.On) severity activity high id 1 format "GNSS state changed to: {}"
+        event fixValidity(valid: Fw.On) severity activity high id 2 format "GNSS fix validity changed to: {}"
+        event gpsQuality(quality: U32) severity activity high id 3 format "GPS quality changed to: {}"
 
         # @ Example port: receiving calls from the rate group
         # sync input port run: Svc.Sched

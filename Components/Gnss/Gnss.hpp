@@ -30,7 +30,9 @@ namespace Gnss {
       ~Gnss();
 
       U32 m_numSentences = 0; //!< Number of sentences received
-      bool m_validFix = false; //!< Valid fix flag
+      U32 m_gpsQuality = 0; //!< GPS quality indicator
+      Fw::On gnssEnabled = Fw::On::OFF; //!< GNSS enabled flag
+      Fw::On m_fixValid = Fw::On::OFF; //!< Valid fix flag
 
     PRIVATE:
 
