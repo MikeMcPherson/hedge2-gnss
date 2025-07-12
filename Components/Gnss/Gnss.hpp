@@ -31,8 +31,17 @@ namespace Gnss {
 
       U32 m_numSentences = 0; //!< Number of sentences received
       U32 m_gpsQuality = 0; //!< GPS quality indicator
-      Fw::On gnssEnabled = Fw::On::OFF; //!< GNSS enabled flag
+      Fw::On m_gnssEnabled = Fw::On::OFF; //!< GNSS enabled flag
       Fw::On m_fixValid = Fw::On::OFF; //!< Valid fix flag
+      U32 m_seconds = 0;
+      U32 m_microseconds = 0;
+      F32 m_lastFixTime = 0.0;
+      F32 m_thisFixTime = 0.0;
+      F32 m_latitude = 0.0; //!< Latitude in degrees
+      F32 m_longitude = 0.0; //!< Longitude in degrees
+      F32 m_altitude = 0.0; //!< Altitude in meters
+      F32 m_speed = 0.0; //!< Speed in meters per second
+      F32 m_heading = 0.0; //!< Heading in degrees
 
     PRIVATE:
 
@@ -58,7 +67,8 @@ namespace Gnss {
       //! GNSS enable command
       void gnssEnable_cmdHandler(
           FwOpcodeType opCode, //!< The opcode
-          U32 cmdSeq //!< The command sequence number
+          U32 cmdSeq, //!< The command sequence number
+          Fw::On newStatus
       ) override;
 
   };

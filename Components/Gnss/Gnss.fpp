@@ -5,7 +5,7 @@ module Gnss {
         # One async command/port is required for active components
         # This should be overridden by the developers with a useful command/port
         @ GNSS enable command
-        async command gnssEnable opcode 0
+        async command gnssEnable(newStatus: Fw.On) opcode 0
 
         ##############################################################################
         #### Uncomment the following examples to start customizing your component ####
