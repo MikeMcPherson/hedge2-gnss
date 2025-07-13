@@ -87,6 +87,7 @@ module gnssDeployment {
     stack size Default.STACK_SIZE \
     priority 96
 
+    @ GNSS component instance
     instance gnss: Gnss.Gnss base id 0x0E00 \
     queue size Default.QUEUE_SIZE \
     stack size Default.STACK_SIZE \
@@ -112,6 +113,9 @@ module gnssDeployment {
 
   instance fatalHandler: Svc.FatalHandler base id 0x4300
 
+  @ Buffer manager instance. Configured to use a malloc allocator
+  @ and a single buffer bin of size 1024 bytes with 100 buffers.
+  @ This can be adjusted based on the application's memory requirements.
   instance bufferManager: Svc.BufferManager base id 0x4400 \
   {
     phase Fpp.ToCpp.Phases.configComponents """
@@ -143,6 +147,7 @@ module gnssDeployment {
 
   instance comStub: Svc.ComStub base id 0x4B00
 
+  @ UART driver instance. Configured to use a Linux UART driver
   instance uartDrv: Drv.LinuxUartDriver base id 0x0F00 \
   {
 

@@ -14,6 +14,8 @@
 #include "Fw/Time/Time.hpp"
 #include "lib/NMEAParserLib/NMEAParser.h"
 #include "lib/NMEAParserLib/NMEAParserData.h"
+#ifdef aarch64
+#endif
 
 namespace Gnss {
 
@@ -24,7 +26,7 @@ namespace Gnss {
   Gnss ::
     Gnss(const char* const compName) :
       GnssComponentBase(compName)
-  {
+  { 
     m_numSentences = 0; //!< Number of NMEA sentences received
   }
 

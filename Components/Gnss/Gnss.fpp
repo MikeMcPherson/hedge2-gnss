@@ -3,36 +3,34 @@ module Gnss {
     active component Gnss {
 
         # One async command/port is required for active components
-        # This should be overridden by the developers with a useful command/port
         @ GNSS enable command
         async command gnssEnable(newStatus: Fw.On) opcode 0
 
-        ##############################################################################
-        #### Uncomment the following examples to start customizing your component ####
-        ##############################################################################
-
-        # @ Example async command
-        # async command COMMAND_NAME(param_name: U32)
-
-        # @ Example telemetry counter
-        # telemetry ExampleCounter: U64
+        @ Count the number of NMEA sentences received
         telemetry numSentences: U32
+        @ GGA latitude
         telemetry latitude: F64
+        @ GGA longitude
         telemetry longitude: F64
+        @ GGA altitude
         telemetry altitude: F64
+        @ RMC speed
         telemetry speed: F64
+        @ RMC course
         telemetry heading: F64
 
-        # @ Example event
-        # event ExampleStateEvent(example_state: Fw.On) severity activity high id 0 format "State set to {}"
+        @ GNSS receiver state: enabled or disabled
         event gnssState(enabled: Fw.On) severity activity high id 1 format "GNSS state changed to: {}"
+        @ GNSS fix validity: valid or invalid
         event fixValidity(valid: Fw.On) severity activity high id 2 format "GNSS fix validity changed to: {}"
+        @ GPS quality: 0 = no fix, 1 = GPS fix, 2 = DGPS fix, etc.
         event gpsQuality(quality: U32) severity activity high id 3 format "GPS quality changed to: {}"
 
-        # @ Example port: receiving calls from the rate group
-        # sync input port run: Svc.Sched
+        @ Port to receive GNSS data
         async input port gnssRecv: Drv.ByteStreamRecv
+        @ Port to send GNSS commands
         output port gnssSend: Drv.ByteStreamSend
+        @ Port to return buffers for deallocation
         output port deallocate: Fw.BufferSend
 
         # @ Example parameter

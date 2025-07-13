@@ -41,7 +41,9 @@ module gnssDeployment {
     instance rateGroupDriver
     instance textLogger
     instance systemResources
+    @ UART driver instance. Configured to use a Linux UART driver
     instance uartDrv
+    @ GNSS component instance
     instance gnss
 
     # ----------------------------------------------------------------------
@@ -135,6 +137,11 @@ module gnssDeployment {
       fileUplink.bufferSendOut -> bufferManager.bufferSendIn
     }
 
+    @ Connections for the GNSS component
+    @ Connect uartDrv.allocate to bufferManager.bufferGetCallee to get buffers for GNSS data
+    @ Connect gnss.deallocate to bufferManager.bufferSendIn to send buffers back after processing
+    @ Connect uartDrv.$recv to gnss.gnssRecv to receive GNSS data
+    @ Connect gnss.gnssSend to uartDrv.$send to send GNSS data
     connections gnssDeployment {
       uartDrv.allocate -> bufferManager.bufferGetCallee
       gnss.deallocate -> bufferManager.bufferSendIn
