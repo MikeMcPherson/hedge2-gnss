@@ -1,3 +1,0 @@
-/home/kq9p/hedge2/hedge2-gps/lib/NMEAParserLib/build/CMakeFiles/NMEAParserLib.dir
-/home/kq9p/hedge2/hedge2-gps/lib/NMEAParserLib/build/CMakeFiles/edit_cache.dir
-/home/kq9p/hedge2/hedge2-gps/lib/NMEAParserLib/build/CMakeFiles/rebuild_cache.dir
