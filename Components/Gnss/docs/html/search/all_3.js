@@ -9,8 +9,7 @@ var searchData=
   ['m_5flatitude_6',['m_latitude',['../classGnss_1_1Gnss.html#aa02c8550063bc85c8c8cf4d3e4e49325',1,'Gnss::Gnss']]],
   ['m_5flongitude_7',['m_longitude',['../classGnss_1_1Gnss.html#a0ecd7959aa974177cb8f89b1f6e7dad5',1,'Gnss::Gnss']]],
   ['m_5fmicroseconds_8',['m_microseconds',['../classGnss_1_1Gnss.html#a0e0168085541e4017b12f95e57ca5957',1,'Gnss::Gnss']]],
-  ['m_5fnumsentences_9',['m_numSentences',['../classGnss_1_1Gnss.html#a2d9105c8421e6c1ea8a61242405f9958',1,'Gnss::Gnss']]],
-  ['m_5fseconds_10',['m_seconds',['../classGnss_1_1Gnss.html#a35d5d0a0c26c8a57791bc851d594781e',1,'Gnss::Gnss']]],
-  ['m_5fspeed_11',['m_speed',['../classGnss_1_1Gnss.html#a5bffcebc056256cfc606270cbdf8e9cc',1,'Gnss::Gnss']]],
-  ['m_5fthisfixtime_12',['m_thisFixTime',['../classGnss_1_1Gnss.html#a677f4affb92542ed6d6f0632a6890c0c',1,'Gnss::Gnss']]]
+  ['m_5fseconds_9',['m_seconds',['../classGnss_1_1Gnss.html#a35d5d0a0c26c8a57791bc851d594781e',1,'Gnss::Gnss']]],
+  ['m_5fspeed_10',['m_speed',['../classGnss_1_1Gnss.html#a5bffcebc056256cfc606270cbdf8e9cc',1,'Gnss::Gnss']]],
+  ['m_5fthisfixtime_11',['m_thisFixTime',['../classGnss_1_1Gnss.html#a677f4affb92542ed6d6f0632a6890c0c',1,'Gnss::Gnss']]]
 ];

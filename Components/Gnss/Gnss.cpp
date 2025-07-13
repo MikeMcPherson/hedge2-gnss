@@ -2,6 +2,11 @@
 // \title  Gnss.cpp
 // \author kq9p
 // \brief  cpp file for Gnss component implementation class
+//
+// The F' component implements a GNSS receiver that processes NMEA sentences.
+// It handles GNSS data reception, parsing, and provides commands to enable/disable GNSS
+// functionality. The component maintains state variables for GNSS status, fix validity,
+// and geographic coordinates. It also provides telemetry outputs for GNSS data.
 // ======================================================================
 
 #include "Components/Gnss/Gnss.hpp"
@@ -20,7 +25,7 @@ namespace Gnss {
     Gnss(const char* const compName) :
       GnssComponentBase(compName)
   {
-    m_numSentences = 0;
+    m_numSentences = 0; //!< Number of NMEA sentences received
   }
 
   Gnss ::
@@ -40,10 +45,14 @@ namespace Gnss {
         const Drv::RecvStatus& recvStatus
     )
   {
-	  CNMEAParser	NMEAParser;
-    CNMEAParserData::GGA_DATA_T m_ggaData;
-    CNMEAParserData::GSV_DATA_T m_gsvData;
-    CNMEAParserData::RMC_DATA_T m_rmcData;
+	  CNMEAParser	NMEAParser; //!< NMEA Parser instance
+    // Create data structures to hold parsed NMEA data
+    // These will be used to store the parsed data from the NMEA sentences
+    // GGA, GSV, and RMC data structures
+    // These structures are defined in the NMEAParserData.h file
+    CNMEAParserData::GGA_DATA_T m_ggaData; //!< GGA data structure
+    CNMEAParserData::GSV_DATA_T m_gsvData; //!< GSV data structure
+    CNMEAParserData::RMC_DATA_T m_rmcData; //!< RMC data structure
 
     // Is the GNSS enabled?
     if (m_gnssEnabled == Fw::On::ON) {

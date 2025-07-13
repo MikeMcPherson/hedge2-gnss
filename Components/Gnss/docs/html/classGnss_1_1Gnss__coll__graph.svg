@@ -12,37 +12,37 @@
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title=" ">
-<polygon fill="#999999" stroke="none" points="102.14,-228 3.7,-228 3.7,0 102.14,0 102.14,-228"/>
+<polygon fill="#999999" stroke="none" points="99.63,-228 6.21,-228 6.21,0 99.63,0 99.63,-228"/>
 <text xml:space="preserve" text-anchor="start" x="26.8" y="-215" font-family="Helvetica,sans-Serif" font-size="10.00">Gnss::Gnss</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-199" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-199" font-family="Helvetica,sans-Serif" font-size="10.00">m_numSentences</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">m_gpsQuality</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-167" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-167" font-family="Helvetica,sans-Serif" font-size="10.00">m_gnssEnabled</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-151" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-151" font-family="Helvetica,sans-Serif" font-size="10.00">m_fixValid</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-135" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-135" font-family="Helvetica,sans-Serif" font-size="10.00">m_seconds</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-119" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-119" font-family="Helvetica,sans-Serif" font-size="10.00">m_microseconds</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">m_lastFixTime</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-87" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-87" font-family="Helvetica,sans-Serif" font-size="10.00">m_thisFixTime</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-71" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-71" font-family="Helvetica,sans-Serif" font-size="10.00">m_latitude</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">m_longitude</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-39" font-family="Helvetica,sans-Serif" font-size="10.00">and 9 more...</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-23" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-23" font-family="Helvetica,sans-Serif" font-size="10.00">Gnss()</text>
-<text xml:space="preserve" text-anchor="start" x="7.7" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
-<text xml:space="preserve" text-anchor="start" x="17.54" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">~Gnss()</text>
-<polygon fill="#666666" stroke="#666666" points="3.7,-210 3.7,-210 102.14,-210 102.14,-210 3.7,-210"/>
-<polygon fill="#666666" stroke="#666666" points="3.7,-34 3.7,-34 15.54,-34 15.54,-34 3.7,-34"/>
-<polygon fill="#666666" stroke="#666666" points="15.54,-34 15.54,-34 102.14,-34 102.14,-34 15.54,-34"/>
-<polygon fill="none" stroke="#666666" points="3.7,0 3.7,-228 102.14,-228 102.14,0 3.7,0"/>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-199" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-199" font-family="Helvetica,sans-Serif" font-size="10.00">__pad0__</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-183" font-family="Helvetica,sans-Serif" font-size="10.00">m_gpsQuality</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-167" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-167" font-family="Helvetica,sans-Serif" font-size="10.00">m_gnssEnabled</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-151" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-151" font-family="Helvetica,sans-Serif" font-size="10.00">m_fixValid</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-135" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-135" font-family="Helvetica,sans-Serif" font-size="10.00">m_seconds</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-119" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-119" font-family="Helvetica,sans-Serif" font-size="10.00">m_microseconds</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">m_lastFixTime</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-87" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-87" font-family="Helvetica,sans-Serif" font-size="10.00">m_thisFixTime</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-71" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-71" font-family="Helvetica,sans-Serif" font-size="10.00">m_latitude</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">m_longitude</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-39" font-family="Helvetica,sans-Serif" font-size="10.00">and 9 more...</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-23" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-23" font-family="Helvetica,sans-Serif" font-size="10.00">Gnss()</text>
+<text xml:space="preserve" text-anchor="start" x="10.21" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">+</text>
+<text xml:space="preserve" text-anchor="start" x="20.05" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">~Gnss()</text>
+<polygon fill="#666666" stroke="#666666" points="6.21,-210 6.21,-210 99.63,-210 99.63,-210 6.21,-210"/>
+<polygon fill="#666666" stroke="#666666" points="6.21,-34 6.21,-34 18.05,-34 18.05,-34 6.21,-34"/>
+<polygon fill="#666666" stroke="#666666" points="18.05,-34 18.05,-34 99.63,-34 99.63,-34 18.05,-34"/>
+<polygon fill="none" stroke="#666666" points="6.21,0 6.21,-228 99.63,-228 99.63,0 6.21,0"/>
 </a>
 </g>
 </g>

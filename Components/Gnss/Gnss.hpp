@@ -34,6 +34,8 @@ namespace Gnss {
       //! Destroy Gnss object
       ~Gnss();
 
+    PRIVATE:
+
       U32 m_numSentences = 0; //!< Number of sentences received
       U32 m_gpsQuality = 0; //!< GPS quality indicator
       Fw::On m_gnssEnabled = Fw::On::OFF; //!< GNSS enabled flag
