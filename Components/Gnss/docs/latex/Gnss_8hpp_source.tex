@@ -1,0 +1,82 @@
+\doxysection{Gnss.\+hpp}
+\hypertarget{Gnss_8hpp_source}{}\label{Gnss_8hpp_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//\ ======================================================================}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ \(\backslash\)title\ \ Gnss.hpp}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//\ \(\backslash\)author\ kq9p}}
+\DoxyCodeLine{00004\ \textcolor{comment}{//\ \(\backslash\)brief\ \ hpp\ file\ for\ Gnss\ component\ implementation\ class}}
+\DoxyCodeLine{00005\ \textcolor{comment}{//\ }}
+\DoxyCodeLine{00006\ \textcolor{comment}{//\ The\ F'\ component\ implements\ a\ GNSS\ receiver\ that\ processes\ NMEA\ sentences.}}
+\DoxyCodeLine{00007\ \textcolor{comment}{//\ It\ handles\ GNSS\ data\ reception,\ parsing,\ and\ provides\ commands\ to\ enable/disable\ GNSS}}
+\DoxyCodeLine{00008\ \textcolor{comment}{//\ functionality.\ The\ component\ maintains\ state\ variables\ for\ GNSS\ status,\ fix\ validity,}}
+\DoxyCodeLine{00009\ \textcolor{comment}{//\ and\ geographic\ coordinates.\ It\ also\ provides\ telemetry\ outputs\ for\ GNSS\ data.}}
+\DoxyCodeLine{00010\ \textcolor{comment}{//\ ======================================================================}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#ifndef\ Gnss\_Gnss\_HPP}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#define\ Gnss\_Gnss\_HPP}}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}Components/Gnss/GnssComponentAc.hpp"{}}}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{namespace\ }Gnss\ \{}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \ \textcolor{keyword}{class\ }\mbox{\hyperlink{classGnss_1_1Gnss_a429aecc1544bb6efcc8740c195683f4b}{Gnss}}\ :}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{public}\ GnssComponentBase}
+\DoxyCodeLine{00021\ \ \ \{}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \textcolor{comment}{//\ Component\ construction\ and\ destruction}}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \mbox{\hyperlink{classGnss_1_1Gnss_a429aecc1544bb6efcc8740c195683f4b}{Gnss}}(}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \textcolor{keyword}{const}\ compName\ }
+\DoxyCodeLine{00032\ \ \ \ \ \ \ );}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \mbox{\hyperlink{classGnss_1_1Gnss_a429aecc1544bb6efcc8740c195683f4b}{\string~Gnss}}();}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00037\ \ \ \ \ \ \ U32\ \mbox{\hyperlink{classGnss_1_1Gnss_a2d9105c8421e6c1ea8a61242405f9958}{m\_numSentences}}\ =\ 0;\ }
+\DoxyCodeLine{00038\ \ \ \ \ \ \ U32\ \mbox{\hyperlink{classGnss_1_1Gnss_a4f69dea57029744ec28d761578c084e8}{m\_gpsQuality}}\ =\ 0;\ }
+\DoxyCodeLine{00039\ \ \ \ \ \ \ Fw::On\ \mbox{\hyperlink{classGnss_1_1Gnss_ae36b7afc78ac4f406aca1e5a6f1360f8}{m\_gnssEnabled}}\ =\ Fw::On::OFF;\ }
+\DoxyCodeLine{00040\ \ \ \ \ \ \ Fw::On\ \mbox{\hyperlink{classGnss_1_1Gnss_afa37ede0e313d2997d72272dbede4d08}{m\_fixValid}}\ =\ Fw::On::OFF;\ }
+\DoxyCodeLine{00041\ \ \ \ \ \ \ U32\ \mbox{\hyperlink{classGnss_1_1Gnss_a35d5d0a0c26c8a57791bc851d594781e}{m\_seconds}}\ =\ 0;\ }
+\DoxyCodeLine{00042\ \ \ \ \ \ \ U32\ \mbox{\hyperlink{classGnss_1_1Gnss_a0e0168085541e4017b12f95e57ca5957}{m\_microseconds}}\ =\ 0;\ }
+\DoxyCodeLine{00043\ \ \ \ \ \ \ F32\ \mbox{\hyperlink{classGnss_1_1Gnss_a4f718b6b8a885f51d4950f7da8b50b93}{m\_lastFixTime}}\ =\ 0.0;\ }
+\DoxyCodeLine{00044\ \ \ \ \ \ \ F32\ \mbox{\hyperlink{classGnss_1_1Gnss_a677f4affb92542ed6d6f0632a6890c0c}{m\_thisFixTime}}\ =\ 0.0;\ }
+\DoxyCodeLine{00045\ \ \ \ \ \ \ F32\ \mbox{\hyperlink{classGnss_1_1Gnss_aa02c8550063bc85c8c8cf4d3e4e49325}{m\_latitude}}\ =\ 0.0;\ }
+\DoxyCodeLine{00046\ \ \ \ \ \ \ F32\ \mbox{\hyperlink{classGnss_1_1Gnss_a0ecd7959aa974177cb8f89b1f6e7dad5}{m\_longitude}}\ =\ 0.0;\ }
+\DoxyCodeLine{00047\ \ \ \ \ \ \ F32\ \mbox{\hyperlink{classGnss_1_1Gnss_a09bd062f139a4616f3f487d685a3099c}{m\_altitude}}\ =\ 0.0;\ }
+\DoxyCodeLine{00048\ \ \ \ \ \ \ F32\ \mbox{\hyperlink{classGnss_1_1Gnss_a5bffcebc056256cfc606270cbdf8e9cc}{m\_speed}}\ =\ 0.0;\ }
+\DoxyCodeLine{00049\ \ \ \ \ \ \ F32\ \mbox{\hyperlink{classGnss_1_1Gnss_aa0403bbb9fbdd104aa411418ad7d314e}{m\_heading}}\ =\ 0.0;\ }
+\DoxyCodeLine{00050\ }
+\DoxyCodeLine{00051\ \ \ \ \ PRIVATE:}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \textcolor{comment}{//\ Handler\ implementations\ for\ typed\ input\ ports}}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00056\ }
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ gnssRecv\_handler(}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \ \ FwIndexType\ portNum,\ }
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \ \ Fw::Buffer\&\ \mbox{\hyperlink{classGnss_1_1Gnss_a8334239f77209bb1d271c972ab1e2607}{recvBuffer}},\ }
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ Drv::RecvStatus\&\ recvStatus\ }
+\DoxyCodeLine{00062\ \ \ \ \ \ \ )\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ PRIVATE:}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \textcolor{comment}{//\ Handler\ implementations\ for\ commands}}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ \textcolor{comment}{//\ -\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/}}
+\DoxyCodeLine{00069\ }
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \textcolor{keywordtype}{void}\ gnssEnable\_cmdHandler(}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \ \ \ \ FwOpcodeType\ opCode,\ }
+\DoxyCodeLine{00075\ \ \ \ \ \ \ \ \ \ \ U32\ \mbox{\hyperlink{classGnss_1_1Gnss_a217abf99ddc8d595ef3b9dec78b6dfa1}{cmdSeq}},\ }
+\DoxyCodeLine{00076\ \ \ \ \ \ \ \ \ \ \ Fw::On\ newStatus\ }
+\DoxyCodeLine{00077\ \ \ \ \ \ \ )\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00078\ }
+\DoxyCodeLine{00079\ \ \ \};}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00081\ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

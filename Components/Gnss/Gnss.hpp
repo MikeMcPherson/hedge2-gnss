@@ -2,6 +2,11 @@
 // \title  Gnss.hpp
 // \author kq9p
 // \brief  hpp file for Gnss component implementation class
+// 
+// The F' component implements a GNSS receiver that processes NMEA sentences.
+// It handles GNSS data reception, parsing, and provides commands to enable/disable GNSS
+// functionality. The component maintains state variables for GNSS status, fix validity,
+// and geographic coordinates. It also provides telemetry outputs for GNSS data.
 // ======================================================================
 
 #ifndef Gnss_Gnss_HPP
@@ -33,10 +38,10 @@ namespace Gnss {
       U32 m_gpsQuality = 0; //!< GPS quality indicator
       Fw::On m_gnssEnabled = Fw::On::OFF; //!< GNSS enabled flag
       Fw::On m_fixValid = Fw::On::OFF; //!< Valid fix flag
-      U32 m_seconds = 0;
-      U32 m_microseconds = 0;
-      F32 m_lastFixTime = 0.0;
-      F32 m_thisFixTime = 0.0;
+      U32 m_seconds = 0; //!< Seconds since  
+      U32 m_microseconds = 0; //!< Microseconds 
+      F32 m_lastFixTime = 0.0; //!< Last fix time
+      F32 m_thisFixTime = 0.0; //!< This fix time
       F32 m_latitude = 0.0; //!< Latitude in degrees
       F32 m_longitude = 0.0; //!< Longitude in degrees
       F32 m_altitude = 0.0; //!< Altitude in meters
@@ -52,8 +57,8 @@ namespace Gnss {
       //! Handler implementation for gnssRecv
       void gnssRecv_handler(
           FwIndexType portNum, //!< The port number
-          Fw::Buffer& recvBuffer,
-          const Drv::RecvStatus& recvStatus
+          Fw::Buffer& recvBuffer, //!< The received buffer
+          const Drv::RecvStatus& recvStatus //!< The receive status
       ) override;
 
     PRIVATE:
@@ -68,7 +73,7 @@ namespace Gnss {
       void gnssEnable_cmdHandler(
           FwOpcodeType opCode, //!< The opcode
           U32 cmdSeq, //!< The command sequence number
-          Fw::On newStatus
+          Fw::On newStatus //!< The new status to set
       ) override;
 
   };

@@ -1,0 +1,215 @@
+@startuml GNSS_Class_Diagram
+!theme plain
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam packageStyle rectangle
+
+package "F-Prime Framework" {
+    abstract class GnssComponentBase {
+        # Various F-Prime base methods
+        + cmdRegOut: Fw::CmdRegPortOut
+        + cmdIn: Fw::CmdPortIn
+        + cmdResponseOut: Fw::CmdResponsePortOut
+        + logTextOut: Fw::LogTextPortOut
+        + logOut: Fw::LogPortOut
+        + tlmOut: Fw::TlmPortOut
+        + timeCaller: Fw::TimePortOut
+        + prmGetOut: Fw::PrmGetPortOut
+        + prmSetOut: Fw::PrmSetPortOut
+    }
+
+    class "Fw::Buffer" {
+        + getSize(): U32
+        + getData(): U8*
+    }
+
+    enum "Fw::On" {
+        ON
+        OFF
+    }
+
+    enum "Drv::RecvStatus" {
+        RECV_OK
+        RECV_NO_DATA
+        RECV_ERROR
+    }
+
+    class "Fw::Time" {
+        + Fw::Time(U32 seconds, U32 microseconds)
+    }
+
+    class "Fw::Logger" {
+        + {static} log(const char* format, ...): void
+    }
+}
+
+package "GNSS Component" {
+    class Gnss {
+        ' Public Member Variables
+        + m_numSentences: U32
+        + m_gpsQuality: U32
+        + m_gnssEnabled: Fw::On
+        + m_fixValid: Fw::On
+        + m_seconds: U32
+        + m_microseconds: U32
+        + m_lastFixTime: F32
+        + m_thisFixTime: F32
+        + m_latitude: F32
+        + m_longitude: F32
+        + m_altitude: F32
+        + m_speed: F32
+        + m_heading: F32
+        
+        ' Constructor/Destructor
+        + Gnss(const char* compName)
+        + ~Gnss()
+        
+        ' Port Handlers
+        - gnssRecv_handler(FwIndexType portNum, Fw::Buffer& recvBuffer, const Drv::RecvStatus& recvStatus): void
+        
+        ' Command Handlers
+        - gnssEnable_cmdHandler(FwOpcodeType opCode, U32 cmdSeq, Fw::On newStatus): void
+        
+        ' Telemetry Methods
+        - tlmWrite_numSentences(U32 value): void
+        - tlmWrite_latitude(F64 value): void
+        - tlmWrite_longitude(F64 value): void
+        - tlmWrite_altitude(F64 value): void
+        - tlmWrite_speed(F64 value): void
+        - tlmWrite_heading(F64 value): void
+        
+        ' Event Logging Methods
+        - log_ACTIVITY_HI_gnssState(Fw::On enabled): void
+        - log_ACTIVITY_HI_fixValidity(Fw::On valid): void
+        - log_ACTIVITY_HI_gpsQuality(U32 quality): void
+        
+        ' Port Methods
+        - deallocate_out(FwIndexType portNum, Fw::Buffer& buffer): void
+    }
+}
+
+package "NMEA Parser Library" {
+    class CNMEAParser {
+        - m_GPGGA: CNMEASentenceGGA
+        - m_GPGSV: CNMEASentenceGSV
+        - m_GPGSA: CNMEASentenceGSA
+        - m_GPRMC: CNMEASentenceRMC
+        - m_GLGGA: CNMEASentenceGGA
+        - m_GLGSV: CNMEASentenceGSV
+        - m_GLGSA: CNMEASentenceGSA
+        - m_GLRMC: CNMEASentenceRMC
+        - m_GNGGA: CNMEASentenceGGA
+        - m_GNGSV: CNMEASentenceGSV
+        - m_GNGSA: CNMEASentenceGSA
+        - m_GNRMC: CNMEASentenceRMC
+        
+        + ProcessNMEABuffer(char* pData, size_t nDataSize): CNMEAParserData::ERROR_E
+        + GetGNGGA(CNMEAParserData::GGA_DATA_T& ggaData): CNMEAParserData::ERROR_E
+        + GetGNRMC(CNMEAParserData::RMC_DATA_T& rmcData): CNMEAParserData::ERROR_E
+        + GetGNGSV(CNMEAParserData::GSV_DATA_T& gsvData): CNMEAParserData::ERROR_E
+    }
+
+    abstract class CNMEAParserPacket {
+        # ProcessRxCommand(char* pCmd, char* pData): CNMEAParserData::ERROR_E
+        # GetField(char* pData, char* pField, int nFieldNum, int nMaxFieldLen): BOOL
+        # Checksum(char* pData): unsigned char
+    }
+
+    class CNMEAParserData {
+        <<static>>
+        + enum ERROR_E {
+            ERROR_OK
+            ERROR_UNKNOWN_SENTENCE
+            ERROR_CHECKSUM
+            ERROR_NO_DATA
+        }
+        
+        + struct GGA_DATA_T {
+            + m_dLatitude: double
+            + m_dLongitude: double
+            + m_dAltitudeMSL: double
+            + m_nGPSQuality: int
+            + m_nSatsInView: int
+            + m_dHDOP: double
+            + m_dAltitudeUnits: double
+            + m_dGeoidalSep: double
+            + m_dGeoidalUnits: double
+        }
+        
+        + struct RMC_DATA_T {
+            + m_dSpeedKnots: double
+            + m_dTrackAngle: double
+            + m_dMagneticVariation: double
+            + m_dMagneticVariationDirection: double
+        }
+        
+        + struct GSV_DATA_T {
+            + m_nSatsInView: int
+            + m_SatInfo[]: SAT_INFO_T
+        }
+    }
+
+    abstract class CNMEASentenceBase {
+        # ResetData(): void
+        # ProcessSentence(char* pCmd, char* pData): CNMEAParserData::ERROR_E
+    }
+
+    class CNMEASentenceGGA {
+        - m_SentenceData: CNMEAParserData::GGA_DATA_T
+        + ProcessSentence(char* pCmd, char* pData): CNMEAParserData::ERROR_E
+        + GetSentenceData(CNMEAParserData::GGA_DATA_T& data): CNMEAParserData::ERROR_E
+    }
+
+    class CNMEASentenceRMC {
+        - m_SentenceData: CNMEAParserData::RMC_DATA_T
+        + ProcessSentence(char* pCmd, char* pData): CNMEAParserData::ERROR_E
+        + GetSentenceData(CNMEAParserData::RMC_DATA_T& data): CNMEAParserData::ERROR_E
+    }
+
+    class CNMEASentenceGSV {
+        - m_SentenceData: CNMEAParserData::GSV_DATA_T
+        + ProcessSentence(char* pCmd, char* pData): CNMEAParserData::ERROR_E
+        + GetSentenceData(CNMEAParserData::GSV_DATA_T& data): CNMEAParserData::ERROR_E
+    }
+
+    class CNMEASentenceGSA {
+        - m_SentenceData: CNMEAParserData::GSA_DATA_T
+        + ProcessSentence(char* pCmd, char* pData): CNMEAParserData::ERROR_E
+        + GetSentenceData(CNMEAParserData::GSA_DATA_T& data): CNMEAParserData::ERROR_E
+    }
+}
+
+' Inheritance relationships
+GnssComponentBase <|-- Gnss
+CNMEAParserPacket <|-- CNMEAParser
+CNMEASentenceBase <|-- CNMEASentenceGGA
+CNMEASentenceBase <|-- CNMEASentenceRMC
+CNMEASentenceBase <|-- CNMEASentenceGSV
+CNMEASentenceBase <|-- CNMEASentenceGSA
+
+' Composition/Usage relationships
+Gnss ..> CNMEAParser : uses
+Gnss ..> CNMEAParserData : uses
+Gnss ..> "Fw::Buffer" : uses
+Gnss ..> "Fw::On" : uses
+Gnss ..> "Drv::RecvStatus" : uses
+Gnss ..> "Fw::Time" : uses
+Gnss ..> "Fw::Logger" : uses
+
+CNMEAParser *-- CNMEASentenceGGA
+CNMEAParser *-- CNMEASentenceRMC
+CNMEAParser *-- CNMEASentenceGSV
+CNMEAParser *-- CNMEASentenceGSA
+
+CNMEASentenceGGA ..> CNMEAParserData : uses
+CNMEASentenceRMC ..> CNMEAParserData : uses
+CNMEASentenceGSV ..> CNMEAParserData : uses
+CNMEASentenceGSA ..> CNMEAParserData : uses
+
+note top of Gnss : Main GNSS component that processes\nNMEA data and provides telemetry\nand command interfaces
+
+note top of CNMEAParser : Third-party NMEA parser library\nthat processes raw NMEA sentences\ninto structured data
+
+note bottom of CNMEAParserData : Data structures and enums\nfor NMEA sentence parsing\nand error handling
+
+@enduml
