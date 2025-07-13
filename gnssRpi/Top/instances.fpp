@@ -1,4 +1,4 @@
-module gnssDeployment {
+module gnssRpi {
 
   # ----------------------------------------------------------------------
   # Defaults
@@ -93,7 +93,7 @@ module gnssDeployment {
   stack size Default.STACK_SIZE \
   priority 95
 
-# ----------------------------------------------------------------------
+  # ----------------------------------------------------------------------
   # Queued component instances
   # ----------------------------------------------------------------------
 
@@ -105,7 +105,7 @@ module gnssDeployment {
   # ----------------------------------------------------------------------
 
   @ Communications driver. May be swapped with other com drivers like UART or TCP
-  instance comDriver: Drv.TcpClient base id 0x4000
+  instance comDriver: Drv.TcpServer base id 0x4000
 
   instance framer: Svc.Framer base id 0x4100
 
@@ -113,9 +113,6 @@ module gnssDeployment {
 
   instance fatalHandler: Svc.FatalHandler base id 0x4300
 
-  @ Buffer manager instance. Configured to use a malloc allocator
-  @ and a single buffer bin of size 1024 bytes with 100 buffers.
-  @ This can be adjusted based on the application's memory requirements.
   instance bufferManager: Svc.BufferManager base id 0x4400 \
   {
     phase Fpp.ToCpp.Phases.configComponents """
