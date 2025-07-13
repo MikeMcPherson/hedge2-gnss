@@ -35,3 +35,5 @@
 fprime-venv
 build-*
 gnssDeployment/logs/*
+docs/html/*
+docs/latex/*
