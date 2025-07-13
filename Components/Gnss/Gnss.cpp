@@ -12,6 +12,13 @@
 #include "Components/Gnss/Gnss.hpp"
 #include "Fw/Logger/Logger.hpp"
 #include "Fw/Time/Time.hpp"
+//
+// This component uses the NMEAParser library to parse NMEA sentences.
+// The NMEAParser library is Copyright (c) 2018 VisualGPS, LLC.
+// It was written by Monte Variakojis and released under the MIT License.
+// It is available at:
+// https://github.com/VisualGPS/NMEAParser.git
+//
 #include "lib/NMEAParserLib/NMEAParser.h"
 #include "lib/NMEAParserLib/NMEAParserData.h"
 #ifdef aarch64
