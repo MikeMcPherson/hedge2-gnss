@@ -35,5 +35,5 @@
 fprime-venv
 build-*
 logs/
-lib/
+lib/NMEAParserLib
 Components/Gnss/docs/html/
