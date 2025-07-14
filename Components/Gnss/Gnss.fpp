@@ -1,6 +1,7 @@
 module Gnss {
     @ GNSS read, parse, and propagate
     active component Gnss {
+        include "nmeaSentence.fppi"
 
         # One async command/port is required for active components
         @ GNSS enable command
@@ -35,6 +36,9 @@ module Gnss {
 
         # @ Example parameter
         # param PARAMETER_NAME: U32
+
+        @ State machine for processing NMEA sentences
+        state machine instance m_nmeaSentence: nmeaSentence
 
         ###############################################################################
         # Standard AC Ports: Required for Channels, Events, Commands, and Parameters  #

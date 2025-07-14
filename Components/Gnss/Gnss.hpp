@@ -49,6 +49,8 @@ namespace Gnss {
       F32 m_altitude = 0.0; //!< Altitude in meters
       F32 m_speed = 0.0; //!< Speed in meters per second
       F32 m_heading = 0.0; //!< Heading in degrees
+      char m_sentenceBuffer[128] = {0}; //!< Buffer for NMEA sentence
+      U32 m_sentencePtr = 0; //!< Current pointer into the sentence buffer
 
     PRIVATE:
 
@@ -76,6 +78,34 @@ namespace Gnss {
           FwOpcodeType opCode, //!< The opcode
           U32 cmdSeq, //!< The command sequence number
           Fw::On newStatus //!< The new status to set
+      ) override;
+
+      // ----------------------------------------------------------------------
+      // Implementations for internal state machine actions
+      // ----------------------------------------------------------------------
+
+      //! Implementation for action writeChar of state machine Gnss_Gnss_nmeaSentence
+      //!
+      //! Action to write the detected character to the sentence buffer
+      void Gnss_Gnss_nmeaSentence_action_writeChar(
+          SmId smId, //!< The state machine id
+          Gnss_Gnss_nmeaSentence::Signal signal //!< The signal
+      ) override;
+
+      //! Implementation for action parseSentence of state machine Gnss_Gnss_nmeaSentence
+      //!
+      //! Action to parse the sentence once confirmed
+      void Gnss_Gnss_nmeaSentence_action_parseSentence(
+          SmId smId, //!< The state machine id
+          Gnss_Gnss_nmeaSentence::Signal signal //!< The signal
+      ) override;
+
+      //! Implementation for action resetNmeaSentence of state machine Gnss_Gnss_nmeaSentence
+      //!
+      //! Action to reset the state machine, clearing any buffers or flags
+      void Gnss_Gnss_nmeaSentence_action_resetNmeaSentence(
+          SmId smId, //!< The state machine id
+          Gnss_Gnss_nmeaSentence::Signal signal //!< The signal
       ) override;
 
   };

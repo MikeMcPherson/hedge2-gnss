@@ -191,4 +191,31 @@ namespace Gnss {
     this->cmdResponse_out(opCode, cmdSeq, Fw::CmdResponse::OK);
   }
 
+  void Gnss ::
+    Gnss_Gnss_nmeaSentence_action_writeChar(
+        SmId smId,
+        Gnss_Gnss_nmeaSentence::Signal signal
+    )
+  {
+    // TODO
+  }
+
+  void Gnss ::
+    Gnss_Gnss_nmeaSentence_action_parseSentence(
+        SmId smId,
+        Gnss_Gnss_nmeaSentence::Signal signal
+    )
+  {
+    // TODO
+  }
+
+  void Gnss ::
+    Gnss_Gnss_nmeaSentence_action_resetNmeaSentence(
+        SmId smId,
+        Gnss_Gnss_nmeaSentence::Signal signal
+    )
+  {
+    // TODO
+  }
+
 }
