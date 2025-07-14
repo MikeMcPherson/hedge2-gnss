@@ -51,6 +51,8 @@ namespace Gnss {
       F32 m_heading = 0.0; //!< Heading in degrees
       char m_sentenceBuffer[128] = {0}; //!< Buffer for NMEA sentence
       U32 m_sentencePtr = 0; //!< Current pointer into the sentence buffer
+      char m_char = '\0'; //!< Current character being processed
+      Gnss_Gnss_nmeaSentence m_nmeaSentence; //!< NMEA sentence state machine
 
     PRIVATE:
 
@@ -103,7 +105,7 @@ namespace Gnss {
       //! Implementation for action resetNmeaSentence of state machine Gnss_Gnss_nmeaSentence
       //!
       //! Action to reset the state machine, clearing any buffers or flags
-      void Gnss_Gnss_nmeaSentence_action_resetNmeaSentence(
+      void Gnss_Gnss_nmeaSentence_action_resetSentence(
           SmId smId, //!< The state machine id
           Gnss_Gnss_nmeaSentence::Signal signal //!< The signal
       ) override;

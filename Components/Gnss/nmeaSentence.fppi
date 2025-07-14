@@ -7,17 +7,17 @@ state machine nmeaSentence {
 # Signals
 #
 
+  @ "$" detected, might be the start of a sentence
+  signal dollarDetected
+
   @ "G" detected, might be the start of a sentence
-  signal gDetected: string size 1
+  signal gDetected
 
   @ Carriage return detected, might be the end of a sentence
-  signal crDetected: string size 1
+  signal crDetected
 
   @ New line detected, might be the end of a sentence
-  signal nlDetected: string size 1
-
-  @ Any character detected that is not "G", carriage return, or newline
-  signal otherDetected: string size 1
+  signal nlDetected
 
   @ Returns true for any character
   signal noOp
@@ -33,7 +33,7 @@ state machine nmeaSentence {
   action parseSentence
 
   @ Action to reset the state machine, clearing any buffers or flags
-  action resetNmeaSentence
+  action resetSentence
 
 #
 # Initial state, first resetting the state machine
@@ -48,35 +48,42 @@ initial enter START_WAITING
   @ No sentence detected, waiting for start of sentence
   state START_WAITING {
     @ Initialize the state machine, clearing any buffers
-    entry do { resetNmeaSentence }
-    @ Transition to START_CANDIDATE on "G" detection
-    on gDetected enter START_CANDIDATE
-    @ Write the detected character to the buffer
-    exit do { writeChar }
+    entry do { resetSentence }
+    @ Transition to START_DOLLAR on "$" detection
+    on dollarDetected do { writeChar } enter START_DOLLAR
+  }
+
+  @ Initial "$" has been detected, waiting for confirmation
+  state START_DOLLAR {
+    @ Transition to FIRST_CANDIDATE on "G" detection
+    on gDetected do { writeChar } enter FIRST_CANDIDATE
+    @ Next character wasn't "G", go back to waiting for start
+    on noOp enter START_WAITING
   }
 
   @ Initial "G" has been detected, waiting for confirmation
-  state START_CANDIDATE {
-    @ Transition to START_CONFIRMED on second "G" detection
+  state FIRST_CANDIDATE {
+    @ Transition to START_CONFIRMED on "G" detection
     on gDetected do { writeChar } enter START_CONFIRMED
     @ Next character wasn't "G", go back to waiting for start
-    on otherDetected enter START_WAITING
+    on noOp enter START_WAITING
   }
 
   @ Second "G" has been detected, confirming the start of a sentence
   state START_CONFIRMED {
     @ Transition to END_CANDIDATE on carriage return detection
-    on crDetected enter END_CANDIDATE
-    @ Write the detected character to the buffer
-    exit do { writeChar }
+    on crDetected do { writeChar } enter END_CANDIDATE
+    @ For everything except carriage return, write the character
+    @ and stay in the same state
+    on noOp do { writeChar } enter START_CONFIRMED
   }
 
   @ Carriage return detected, waiting for end of sentence confirmation
   state END_CANDIDATE {
-    @ Transition to END_CONFIRMED on new line detection
+    @ Transition to END_CONFIRMED on newline detection
     on nlDetected do { writeChar } enter END_CONFIRMED
     @ Next character wasn't newline, go back to waiting for start
-    on otherDetected enter START_WAITING
+    on noOp enter START_WAITING
   }
 
   @ Newline detected, confirming the end of a sentence
