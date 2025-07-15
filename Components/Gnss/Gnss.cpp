@@ -29,12 +29,13 @@ namespace Gnss {
   // ----------------------------------------------------------------------
   // Component construction and destruction
   // ----------------------------------------------------------------------
-
+  
+  
   Gnss ::
     Gnss(const char* const compName) :
-      GnssComponentBase(compName)
+      GnssComponentBase(compName),
+      m_nmeaSentenceSM(*this)
   {
-    m_numSentences = 0; //!< Number of NMEA sentences processed
   }
 
   Gnss ::
@@ -64,30 +65,32 @@ namespace Gnss {
       // Check the receive status
       if(recvStatus == Drv::RecvStatus::RECV_OK) {
       // Process the character data
-      // for(char c : m_data_pointer) {
-      //   switch(toupper(c)) {
-      //     case '$':
-      //       // Start of a new NMEA sentence
-      //       m_nmeaSentence.dollarDetected();
-      //       break;
-      //     case 'G':
-      //       // Start of a new NMEA sentence
-      //       m_nmeaSentence.gDetected();
-      //       break;
-      //     case '\r':
-      //       // Carriage return detected
-      //       m_nmeaSentence.crDetected();
-      //       break;
-      //     case '\n':
-      //       // Newline detected
-      //       m_nmeaSentence.nlDetected();
-      //       break;
-      //     default:
-      //       // Process the character
-      //       m_nmeaSentence.noOp();
-      //       break;
-      //   } // switch(c)
-      // } // foreach(c)
+      for(U32 i = 0; i < m_bufferSize; i++) {
+        char c = m_data_pointer[i];
+        printf("Processing character: %c\n", c);
+        switch(c) {
+          case '$':
+            // Start of a new NMEA sentence
+            m_nmeaSentenceSM.sendSignal_dollarDetected();
+            break;
+          case 'G':
+            // Start of a new NMEA sentence
+            m_nmeaSentenceSM.sendSignal_gDetected();
+            break;
+          case '\r':
+            // Carriage return detected
+            m_nmeaSentenceSM.sendSignal_crDetected();
+            break;
+          case '\n':
+            // Newline detected
+            m_nmeaSentenceSM.sendSignal_nlDetected();
+            break;
+          default:
+            // Process the character
+            m_nmeaSentenceSM.sendSignal_noOp();
+            break;
+        } // switch(c)
+      } // foreach(c)
       } else if(recvStatus == Drv::RecvStatus::RECV_NO_DATA) 
       {
         // Handle no data case

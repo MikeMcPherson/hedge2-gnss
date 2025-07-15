@@ -52,7 +52,7 @@ namespace Gnss {
       char m_sentenceBuffer[128] = {0}; //!< Buffer for NMEA sentence
       U32 m_sentencePtr = 0; //!< Current pointer into the sentence buffer
       char m_char = '\0'; //!< Current character being processed
-      Gnss_Gnss_nmeaSentence m_nmeaSentence; //!< NMEA sentence state machine
+      Gnss_Gnss_nmeaSentence m_nmeaSentenceSM; //!< NMEA sentence state machine
 
     PRIVATE:
 
@@ -81,6 +81,8 @@ namespace Gnss {
           U32 cmdSeq, //!< The command sequence number
           Fw::On newStatus //!< The new status to set
       ) override;
+
+    PRIVATE:
 
       // ----------------------------------------------------------------------
       // Implementations for internal state machine actions
