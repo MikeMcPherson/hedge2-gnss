@@ -152,7 +152,7 @@ module gnssDeployment {
   {
 
     phase Fpp.ToCpp.Phases.configComponents """
-      const bool status = uartDrv.open("/dev/ttyUSB0",
+      const bool status = uartDrv.open("/dev/ttyACM0",
           Drv::LinuxUartDriver::BAUD_9600,
           Drv::LinuxUartDriver::NO_FLOW,
           Drv::LinuxUartDriver::PARITY_NONE,

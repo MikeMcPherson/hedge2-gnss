@@ -36,6 +36,8 @@ namespace Gnss {
 
     PRIVATE:
 
+      char m_sentenceBuffer[128] = {0}; //!< Buffer for NMEA sentences
+      U32 m_sentenceBufferIndex = 0; //!< Pointer to the current position in the sentence buffer
       U32 m_numSentences = 0; //!< Number of sentences received
       U32 m_gpsQuality = 0; //!< GPS quality indicator
       Fw::On m_gnssEnabled = Fw::On::OFF; //!< GNSS enabled flag

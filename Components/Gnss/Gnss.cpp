@@ -65,77 +65,92 @@ namespace Gnss {
 
     // Is the GNSS enabled?
     if (m_gnssEnabled == Fw::On::ON) {
-      // How many bytes were received?
-      U32 m_bufferSize = recvBuffer.getSize();
-      // Get the data pointer from the buffer
-      char* m_data_pointer = reinterpret_cast<char*>(recvBuffer.getData());
       // Check the receive status
       if(recvStatus == Drv::RecvStatus::RECV_OK) {
         // Process the NMEA data
-        // Increment the number of sentences received
-        m_numSentences++;
-        // Update telemetry
-        this->tlmWrite_numSentences(m_numSentences);
-        // Process the NMEA buffer
-        CNMEAParserData::ERROR_E nErr;
-        if ((nErr = NMEAParser.ProcessNMEABuffer(m_data_pointer, m_bufferSize)) == CNMEAParserData::ERROR_OK) {
-          // Successfully processed the NMEA buffer
-          // Retrieve GGA data
-          if ((nErr = NMEAParser.GetGNGGA(m_ggaData)) == CNMEAParserData::ERROR_OK) {
-            // // If GPS quality has changed, log the event
-            // if (static_cast<U32>(m_ggaData.m_nGPSQuality) != m_gpsQuality) {
-            //   m_gpsQuality = static_cast<U32>(m_ggaData.m_nGPSQuality);
-            //   this->log_ACTIVITY_HI_gpsQuality(m_gpsQuality);
-            // }
-            // Check to see if we have a fix
-            if (static_cast<U32>(m_ggaData.m_nGPSQuality) > 0 && static_cast<U32>(m_ggaData.m_nGPSQuality) < 4) {
-              // We have a valid fix
-              // If fix status has changed, log the event, then set current fix valid status
-              if(m_fixValid != Fw::On::ON) {
-                this->log_ACTIVITY_HI_fixValidity(Fw::On::ON);
-              }
-              m_fixValid = Fw::On::ON;
-              // Record the time of the last fix
-              Fw::Time(m_seconds, m_microseconds);
-              m_lastFixTime = static_cast<F32>(m_seconds) + (static_cast<F32>(m_microseconds) / 1e6f);
-              // Update telemetry with GGA data
-              this->tlmWrite_latitude(m_ggaData.m_dLatitude);
-              this->tlmWrite_longitude(m_ggaData.m_dLongitude);
-              this->tlmWrite_altitude(m_ggaData.m_dAltitudeMSL);
-              // Store the latitude, longitude, altitude, speed, and heading
-              m_latitude = m_ggaData.m_dLatitude;
-              m_longitude = m_ggaData.m_dLongitude;
-              m_altitude = m_ggaData.m_dAltitudeMSL;
-              // Retrieve RMC data
-              if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
-                // Successfully retrieved RMC data
-                m_speed = m_rmcData.m_dSpeedKnots;
-                m_heading = m_rmcData.m_dTrackAngle;
-                // Update telemetry with RMC data
-                this->tlmWrite_speed(m_speed);
-                this->tlmWrite_heading(m_heading);
-              } else
-              {
-                Fw::Logger::log("Failed to get GNRMC data: %d\n", nErr);
+        // How many bytes were received?
+        U32 m_bufferSize = recvBuffer.getSize();
+        // Get the data pointer from the buffer
+        char* m_data_pointer = reinterpret_cast<char*>(recvBuffer.getData());
+        // Copy the received data into the sentence buffer
+        for (U32 i = 0; i < m_bufferSize && i < sizeof(m_sentenceBuffer) - 1; i++) {
+          m_sentenceBuffer[m_sentenceBufferIndex] = m_data_pointer[i];
+          // Increment the pointer to the next position
+          m_sentenceBufferIndex++;
+          // If we have reached the end of an NMEA sentence, process it
+          if(m_data_pointer[i] == '\n') {
+            // Null-terminate the sentence buffer
+            m_sentenceBuffer[m_sentenceBufferIndex] = '\0';
+            // Increment the sentence buffer index
+            m_sentenceBufferIndex++;
+            // Increment the number of sentences received
+            m_numSentences++;
+            // Update telemetry
+            this->tlmWrite_numSentences(m_numSentences);
+            // Process the NMEA buffer
+            CNMEAParserData::ERROR_E nErr;
+            if ((nErr = NMEAParser.ProcessNMEABuffer(m_sentenceBuffer, m_sentenceBufferIndex)) == CNMEAParserData::ERROR_OK) {
+              // Successfully processed the NMEA buffer
+              // Retrieve GGA data
+              if ((nErr = NMEAParser.GetGNGGA(m_ggaData)) == CNMEAParserData::ERROR_OK) {
+                // // If GPS quality has changed, log the event
+                // if (static_cast<U32>(m_ggaData.m_nGPSQuality) != m_gpsQuality) {
+                //   m_gpsQuality = static_cast<U32>(m_ggaData.m_nGPSQuality);
+                //   this->log_ACTIVITY_HI_gpsQuality(m_gpsQuality);
+                // }
+                // Check to see if we have a fix
+                if (static_cast<U32>(m_ggaData.m_nGPSQuality) > 0 && static_cast<U32>(m_ggaData.m_nGPSQuality) < 4) {
+                  // We have a valid fix
+                  // If fix status has changed, log the event, then set current fix valid status
+                  if(m_fixValid != Fw::On::ON) {
+                    this->log_ACTIVITY_HI_fixValidity(Fw::On::ON);
+                  }
+                  m_fixValid = Fw::On::ON;
+                  // Record the time of the last fix
+                  Fw::Time(m_seconds, m_microseconds);
+                  m_lastFixTime = static_cast<F32>(m_seconds) + (static_cast<F32>(m_microseconds) / 1e6f);
+                  // Update telemetry with GGA data
+                  this->tlmWrite_latitude(m_ggaData.m_dLatitude);
+                  this->tlmWrite_longitude(m_ggaData.m_dLongitude);
+                  this->tlmWrite_altitude(m_ggaData.m_dAltitudeMSL);
+                  // Store the latitude, longitude, altitude, speed, and heading
+                  m_latitude = m_ggaData.m_dLatitude;
+                  m_longitude = m_ggaData.m_dLongitude;
+                  m_altitude = m_ggaData.m_dAltitudeMSL;
+                  // Retrieve RMC data
+                  if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
+                    // Successfully retrieved RMC data
+                    m_speed = m_rmcData.m_dSpeedKnots;
+                    m_heading = m_rmcData.m_dTrackAngle;
+                    // Update telemetry with RMC data
+                    this->tlmWrite_speed(m_speed);
+                    this->tlmWrite_heading(m_heading);
+                  } else
+                  {
+                    Fw::Logger::log("Failed to get GNRMC data: %d\n", nErr);
+                  }
+                } else
+                {
+                  // No valid fix
+                  // Retrieve the current time
+                  Fw::Time(m_seconds, m_microseconds);
+                  // If it has been more than 2 seconds since the last fix, log the event and set fix validity to OFF
+                  m_thisFixTime = static_cast<F32>(m_seconds) + (static_cast<F32>(m_microseconds) / 1e6f);
+                  if((m_fixValid != Fw::On::OFF) && ((m_thisFixTime - m_lastFixTime) > 2.0f)) {
+                    this->log_ACTIVITY_HI_fixValidity(Fw::On::OFF);
+                    m_fixValid = Fw::On::OFF;
+                  }
+                }
+              } else {
+                Fw::Logger::log("Failed to get GNGGA data: %d\n", nErr);
               }
             } else
             {
-              // No valid fix
-              // Retrieve the current time
-              Fw::Time(m_seconds, m_microseconds);
-              // If it has been more than 2 seconds since the last fix, log the event and set fix validity to OFF
-              m_thisFixTime = static_cast<F32>(m_seconds) + (static_cast<F32>(m_microseconds) / 1e6f);
-              if((m_fixValid != Fw::On::OFF) && ((m_thisFixTime - m_lastFixTime) > 2.0f)) {
-                this->log_ACTIVITY_HI_fixValidity(Fw::On::OFF);
-                m_fixValid = Fw::On::OFF;
-              }
+              Fw::Logger::log("NMEA Parser ProcessNMEABuffer Failed and returned error: %d\n", nErr);
             }
-          } else {
-            Fw::Logger::log("Failed to get GNGGA data: %d\n", nErr);
+            // Reset the pointer to the start of the sentence buffer
+            m_sentenceBufferIndex = 0;
           }
-        } else
-        {
-          Fw::Logger::log("NMEA Parser ProcessNMEABuffer Failed and returned error: %d\n", nErr);
         }
       } else if(recvStatus == Drv::RecvStatus::RECV_NO_DATA) 
       {

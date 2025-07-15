@@ -142,7 +142,7 @@ module gnssRpi {
     @ Connect gnss.deallocate to bufferManager.bufferSendIn to send buffers back after processing
     @ Connect uartDrv.$recv to gnss.gnssRecv to receive GNSS data
     @ Connect gnss.gnssSend to uartDrv.$send to send GNSS data
-    connections gnssDeployment {
+    connections Gnss {
       uartDrv.allocate -> bufferManager.bufferGetCallee
       gnss.deallocate -> bufferManager.bufferSendIn
       uartDrv.$recv -> gnss.gnssRecv
