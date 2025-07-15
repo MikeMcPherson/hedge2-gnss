@@ -19,8 +19,6 @@
 // It is available at:
 // https://github.com/VisualGPS/NMEAParser.git
 //
-#include "lib/NMEAParserLib/NMEAParser.h"
-#include "lib/NMEAParserLib/NMEAParserData.h"
 #ifdef aarch64
 #endif
 
@@ -35,7 +33,16 @@ namespace Gnss {
       GnssComponentBase(compName)
   { 
     m_numSentences = 0; //!< Number of NMEA sentences received
-  }
+    // Create data structures to hold parsed NMEA data
+    // These will be used to store the parsed data from the NMEA sentences
+    // GGA, GSV, and RMC data structures
+    // These structures are defined in the NMEAParserData.h file
+    // Initialize NMEA data structures to safe defaults
+    memset(&m_ggaData, 0, sizeof(m_ggaData));
+    memset(&m_rmcData, 0, sizeof(m_rmcData));
+    memset(&m_gsvData, 0, sizeof(m_gsvData));
+    memset(m_sentenceBuffer, 0, sizeof(m_sentenceBuffer));
+}
 
   Gnss ::
     ~Gnss()
@@ -55,13 +62,6 @@ namespace Gnss {
     )
   {
 	  CNMEAParser	NMEAParser; //!< NMEA Parser instance
-    // Create data structures to hold parsed NMEA data
-    // These will be used to store the parsed data from the NMEA sentences
-    // GGA, GSV, and RMC data structures
-    // These structures are defined in the NMEAParserData.h file
-    CNMEAParserData::GGA_DATA_T m_ggaData; //!< GGA data structure
-    CNMEAParserData::GSV_DATA_T m_gsvData; //!< GSV data structure
-    CNMEAParserData::RMC_DATA_T m_rmcData; //!< RMC data structure
 
     // Is the GNSS enabled?
     if (m_gnssEnabled == Fw::On::ON) {
@@ -89,7 +89,7 @@ namespace Gnss {
             this->tlmWrite_numSentences(m_numSentences);
             // Process the NMEA buffer
             CNMEAParserData::ERROR_E nErr;
-            if ((nErr = NMEAParser.ProcessNMEABuffer(m_sentenceBuffer, m_sentenceBufferIndex)) == CNMEAParserData::ERROR_OK) {
+            if ((nErr = NMEAParser.ProcessNMEABuffer(&m_sentenceBuffer[0], m_sentenceBufferIndex)) == CNMEAParserData::ERROR_OK) {
               // Successfully processed the NMEA buffer
               // Retrieve GGA data
               if ((nErr = NMEAParser.GetGNGGA(m_ggaData)) == CNMEAParserData::ERROR_OK) {

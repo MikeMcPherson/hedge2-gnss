@@ -13,6 +13,8 @@
 #define Gnss_Gnss_HPP
 
 #include "Components/Gnss/GnssComponentAc.hpp"
+#include "lib/NMEAParserLib/NMEAParser.h"
+#include "lib/NMEAParserLib/NMEAParserData.h"
 
 namespace Gnss {
 
@@ -36,6 +38,9 @@ namespace Gnss {
 
     PRIVATE:
 
+      CNMEAParserData::GGA_DATA_T m_ggaData; //!< GGA data structure
+      CNMEAParserData::GSV_DATA_T m_gsvData; //!< GSV data structure
+      CNMEAParserData::RMC_DATA_T m_rmcData; //!< RMC data structure
       char m_sentenceBuffer[128] = {0}; //!< Buffer for NMEA sentences
       U32 m_sentenceBufferIndex = 0; //!< Pointer to the current position in the sentence buffer
       U32 m_numSentences = 0; //!< Number of sentences received
