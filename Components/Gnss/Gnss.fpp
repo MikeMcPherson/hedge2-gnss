@@ -20,7 +20,7 @@ module Gnss {
         telemetry heading: F64
 
         @ GNSS receiver state: enabled or disabled
-        event gnssState(enabled: Fw.On) severity activity high id 1 format "GNSS state changed to: {}"
+        event gnssState(enabled: Fw.On) severity activity high id 1 format "GNSS state set to: {}"
         @ GNSS fix validity: valid or invalid
         event fixValidity(valid: Fw.On) severity activity high id 2 format "GNSS fix validity changed to: {}"
         @ GPS quality: 0 = no fix, 1 = GPS fix, 2 = DGPS fix, etc.

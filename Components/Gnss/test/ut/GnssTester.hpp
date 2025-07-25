@@ -49,8 +49,13 @@ namespace Gnss {
       // Tests
       // ----------------------------------------------------------------------
 
-      //! To do
-      void toDo();
+      void testEnable();
+      void testLatitude();
+      void testLongitude();
+      void testAltitude();
+      void testGpsQuality();
+      void testSpeed();
+      void testHeading();
 
     private:
 
@@ -72,7 +77,6 @@ namespace Gnss {
 
       //! The component under test
       Gnss component;
-
   };
 
 }

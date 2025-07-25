@@ -12,6 +12,8 @@
 #include "Components/Gnss/Gnss.hpp"
 #include "Fw/Logger/Logger.hpp"
 #include "Fw/Time/Time.hpp"
+#include <iostream>
+
 //
 // This component uses the NMEAParser library to parse NMEA sentences.
 // The NMEAParser library is Copyright (c) 2018 VisualGPS, LLC.
@@ -93,12 +95,11 @@ namespace Gnss {
               // Successfully processed the NMEA buffer
               // Retrieve GGA data
               if ((nErr = NMEAParser.GetGNGGA(m_ggaData)) == CNMEAParserData::ERROR_OK) {
-                // // If GPS quality has changed, log the event
-                // if (static_cast<U32>(m_ggaData.m_nGPSQuality) != m_gpsQuality) {
-                //   m_gpsQuality = static_cast<U32>(m_ggaData.m_nGPSQuality);
-                //   this->log_ACTIVITY_HI_gpsQuality(m_gpsQuality);
-                // }
-                // Check to see if we have a fix
+                std::cout << "**********Latitude: " << m_ggaData.m_dLatitude << std::endl;
+                std::cout << "**********Longitude: " << m_ggaData.m_dLongitude << std::endl;
+                std::cout << "**********Altitude: " << m_ggaData.m_dAltitudeMSL << std::endl;
+                std::cout << "**********GPS Quality: " << static_cast<U32>(m_ggaData.m_nGPSQuality) << std::endl;
+                // Check if GPS quality is valid
                 if (static_cast<U32>(m_ggaData.m_nGPSQuality) > 0 && static_cast<U32>(m_ggaData.m_nGPSQuality) < 4) {
                   // We have a valid fix
                   // If fix status has changed, log the event, then set current fix valid status
@@ -119,6 +120,8 @@ namespace Gnss {
                   m_altitude = m_ggaData.m_dAltitudeMSL;
                   // Retrieve RMC data
                   if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
+                    std::cout << "**********Speed: " << m_rmcData.m_dSpeedKnots << std::endl;
+                    std::cout << "**********Heading: " << m_rmcData.m_dTrackAngle << std::endl;
                     // Successfully retrieved RMC data
                     m_speed = m_rmcData.m_dSpeedKnots;
                     m_heading = m_rmcData.m_dTrackAngle;
