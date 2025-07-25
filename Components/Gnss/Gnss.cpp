@@ -91,13 +91,8 @@ namespace Gnss {
             CNMEAParserData::ERROR_E nErr;
             if ((nErr = NMEAParser.ProcessNMEABuffer(&m_sentenceBuffer[0], m_sentenceBufferIndex)) == CNMEAParserData::ERROR_OK) {
               // Successfully processed the NMEA buffer
-              // Retrieve GGA data
+              // Attempt to retrieve GGA data
               if ((nErr = NMEAParser.GetGNGGA(m_ggaData)) == CNMEAParserData::ERROR_OK) {
-                // // If GPS quality has changed, log the event
-                // if (static_cast<U32>(m_ggaData.m_nGPSQuality) != m_gpsQuality) {
-                //   m_gpsQuality = static_cast<U32>(m_ggaData.m_nGPSQuality);
-                //   this->log_ACTIVITY_HI_gpsQuality(m_gpsQuality);
-                // }
                 // Check to see if we have a fix
                 if (static_cast<U32>(m_ggaData.m_nGPSQuality) > 0 && static_cast<U32>(m_ggaData.m_nGPSQuality) < 4) {
                   // We have a valid fix
@@ -113,22 +108,10 @@ namespace Gnss {
                   this->tlmWrite_latitude(m_ggaData.m_dLatitude);
                   this->tlmWrite_longitude(m_ggaData.m_dLongitude);
                   this->tlmWrite_altitude(m_ggaData.m_dAltitudeMSL);
-                  // Store the latitude, longitude, altitude, speed, and heading
+                  // Store the latitude, longitude, altitude
                   m_latitude = m_ggaData.m_dLatitude;
                   m_longitude = m_ggaData.m_dLongitude;
                   m_altitude = m_ggaData.m_dAltitudeMSL;
-                  // Retrieve RMC data
-                  if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
-                    // Successfully retrieved RMC data
-                    m_speed = m_rmcData.m_dSpeedKnots;
-                    m_heading = m_rmcData.m_dTrackAngle;
-                    // Update telemetry with RMC data
-                    this->tlmWrite_speed(m_speed);
-                    this->tlmWrite_heading(m_heading);
-                  } else
-                  {
-                    Fw::Logger::log("Failed to get GNRMC data: %d\n", nErr);
-                  }
                 } else
                 {
                   // No valid fix
@@ -143,6 +126,18 @@ namespace Gnss {
                 }
               } else {
                 Fw::Logger::log("Failed to get GNGGA data: %d\n", nErr);
+              }
+              // Attempt to retrieve RMC data
+              if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
+                // Successfully retrieved RMC data
+                m_speed = m_rmcData.m_dSpeedKnots;
+                m_heading = m_rmcData.m_dTrackAngle;
+                // Update telemetry with RMC data
+                this->tlmWrite_speed(m_speed);
+                this->tlmWrite_heading(m_heading);
+              } else
+              {
+                Fw::Logger::log("Failed to get GNRMC data: %d\n", nErr);
               }
             } else
             {
