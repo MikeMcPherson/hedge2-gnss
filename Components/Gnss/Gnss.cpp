@@ -12,6 +12,8 @@
 #include "Components/Gnss/Gnss.hpp"
 #include "Fw/Logger/Logger.hpp"
 #include "Fw/Time/Time.hpp"
+#include <iostream>
+
 //
 // This component uses the NMEAParser library to parse NMEA sentences.
 // The NMEAParser library is Copyright (c) 2018 VisualGPS, LLC.
@@ -62,7 +64,6 @@ namespace Gnss {
     )
   {
 	  CNMEAParser	NMEAParser; //!< NMEA Parser instance
-
     // Is the GNSS enabled?
     if (m_gnssEnabled == Fw::On::ON) {
       // Check the receive status
@@ -74,15 +75,18 @@ namespace Gnss {
         char* m_data_pointer = reinterpret_cast<char*>(recvBuffer.getData());
         // Copy the received data into the sentence buffer
         for (U32 i = 0; i < m_bufferSize && i < sizeof(m_sentenceBuffer) - 1; i++) {
-          m_sentenceBuffer[m_sentenceBufferIndex] = m_data_pointer[i];
-          // Increment the pointer to the next position
-          m_sentenceBufferIndex++;
+          if(m_data_pointer[i] != '\r' && m_data_pointer[i] != '\n') {
+            // If the character is not a carriage return or newline, copy it to the sentence buffer
+            m_sentenceBuffer[m_sentenceBufferIndex] = m_data_pointer[i];
+            // Increment the pointer to the next position
+            m_sentenceBufferIndex++;
+          }
           // If we have reached the end of an NMEA sentence, process it
           if(m_data_pointer[i] == '\n') {
             // Null-terminate the sentence buffer
             m_sentenceBuffer[m_sentenceBufferIndex] = '\0';
             // Increment the sentence buffer index
-            m_sentenceBufferIndex++;
+            // m_sentenceBufferIndex++;
             // Increment the number of sentences received
             m_numSentences++;
             // Update telemetry
