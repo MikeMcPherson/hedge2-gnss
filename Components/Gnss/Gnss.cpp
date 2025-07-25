@@ -93,7 +93,7 @@ namespace Gnss {
             CNMEAParserData::ERROR_E nErr;
             if ((nErr = NMEAParser.ProcessNMEABuffer(&m_sentenceBuffer[0], m_sentenceBufferIndex)) == CNMEAParserData::ERROR_OK) {
               // Successfully processed the NMEA buffer
-              // Retrieve GGA data
+              // Attempt to retrieve GGA data
               if ((nErr = NMEAParser.GetGNGGA(m_ggaData)) == CNMEAParserData::ERROR_OK) {
                 std::cout << "**********Latitude: " << m_ggaData.m_dLatitude << std::endl;
                 std::cout << "**********Longitude: " << m_ggaData.m_dLongitude << std::endl;
@@ -118,20 +118,6 @@ namespace Gnss {
                   m_latitude = m_ggaData.m_dLatitude;
                   m_longitude = m_ggaData.m_dLongitude;
                   m_altitude = m_ggaData.m_dAltitudeMSL;
-                  // Retrieve RMC data
-                  if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
-                    std::cout << "**********Speed: " << m_rmcData.m_dSpeedKnots << std::endl;
-                    std::cout << "**********Heading: " << m_rmcData.m_dTrackAngle << std::endl;
-                    // Successfully retrieved RMC data
-                    m_speed = m_rmcData.m_dSpeedKnots;
-                    m_heading = m_rmcData.m_dTrackAngle;
-                    // Update telemetry with RMC data
-                    this->tlmWrite_speed(m_speed);
-                    this->tlmWrite_heading(m_heading);
-                  } else
-                  {
-                    Fw::Logger::log("Failed to get GNRMC data: %d\n", nErr);
-                  }
                 } else
                 {
                   // No valid fix
@@ -146,6 +132,20 @@ namespace Gnss {
                 }
               } else {
                 Fw::Logger::log("Failed to get GNGGA data: %d\n", nErr);
+              }
+              // Attempt to retrieve RMC data
+              if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
+                std::cout << "**********Speed: " << m_rmcData.m_dSpeedKnots << std::endl;
+                std::cout << "**********Heading: " << m_rmcData.m_dTrackAngle << std::endl;
+                // Successfully retrieved RMC data
+                m_speed = m_rmcData.m_dSpeedKnots;
+                m_heading = m_rmcData.m_dTrackAngle;
+                // Update telemetry with RMC data
+                this->tlmWrite_speed(m_speed);
+                this->tlmWrite_heading(m_heading);
+              } else
+              {
+                Fw::Logger::log("Failed to get GNRMC data: %d\n", nErr);
               }
             } else
             {
