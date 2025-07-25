@@ -49,13 +49,9 @@ namespace Gnss {
       // Tests
       // ----------------------------------------------------------------------
 
-      void testEnable();
-      void testLatitude();
-      void testLongitude();
-      void testAltitude();
-      void testGpsQuality();
-      void testSpeed();
-      void testHeading();
+      void testGnssEnable_cmdHandler();
+      void testGnssRecv_handler_Gga();
+      void testGnssRecv_handler_Rmc();
 
     private:
 

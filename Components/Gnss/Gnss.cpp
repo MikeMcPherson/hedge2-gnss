@@ -64,7 +64,6 @@ namespace Gnss {
     )
   {
 	  CNMEAParser	NMEAParser; //!< NMEA Parser instance
-
     // Is the GNSS enabled?
     if (m_gnssEnabled == Fw::On::ON) {
       // Check the receive status
@@ -76,15 +75,18 @@ namespace Gnss {
         char* m_data_pointer = reinterpret_cast<char*>(recvBuffer.getData());
         // Copy the received data into the sentence buffer
         for (U32 i = 0; i < m_bufferSize && i < sizeof(m_sentenceBuffer) - 1; i++) {
-          m_sentenceBuffer[m_sentenceBufferIndex] = m_data_pointer[i];
-          // Increment the pointer to the next position
-          m_sentenceBufferIndex++;
+          if(m_data_pointer[i] != '\r' && m_data_pointer[i] != '\n') {
+            // If the character is not a carriage return or newline, copy it to the sentence buffer
+            m_sentenceBuffer[m_sentenceBufferIndex] = m_data_pointer[i];
+            // Increment the pointer to the next position
+            m_sentenceBufferIndex++;
+          }
           // If we have reached the end of an NMEA sentence, process it
           if(m_data_pointer[i] == '\n') {
             // Null-terminate the sentence buffer
             m_sentenceBuffer[m_sentenceBufferIndex] = '\0';
             // Increment the sentence buffer index
-            m_sentenceBufferIndex++;
+            // m_sentenceBufferIndex++;
             // Increment the number of sentences received
             m_numSentences++;
             // Update telemetry
@@ -95,10 +97,6 @@ namespace Gnss {
               // Successfully processed the NMEA buffer
               // Attempt to retrieve GGA data
               if ((nErr = NMEAParser.GetGNGGA(m_ggaData)) == CNMEAParserData::ERROR_OK) {
-                std::cout << "**********Latitude: " << m_ggaData.m_dLatitude << std::endl;
-                std::cout << "**********Longitude: " << m_ggaData.m_dLongitude << std::endl;
-                std::cout << "**********Altitude: " << m_ggaData.m_dAltitudeMSL << std::endl;
-                std::cout << "**********GPS Quality: " << static_cast<U32>(m_ggaData.m_nGPSQuality) << std::endl;
                 // Check if GPS quality is valid
                 if (static_cast<U32>(m_ggaData.m_nGPSQuality) > 0 && static_cast<U32>(m_ggaData.m_nGPSQuality) < 4) {
                   // We have a valid fix
@@ -135,8 +133,6 @@ namespace Gnss {
               }
               // Attempt to retrieve RMC data
               if ((nErr = NMEAParser.GetGNRMC(m_rmcData)) == CNMEAParserData::ERROR_OK) {
-                std::cout << "**********Speed: " << m_rmcData.m_dSpeedKnots << std::endl;
-                std::cout << "**********Heading: " << m_rmcData.m_dTrackAngle << std::endl;
                 // Successfully retrieved RMC data
                 m_speed = m_rmcData.m_dSpeedKnots;
                 m_heading = m_rmcData.m_dTrackAngle;

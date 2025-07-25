@@ -6,39 +6,19 @@
 
 #include "GnssTester.hpp"
 
-TEST(Nominal, testEnable) {
+TEST(Nominal, testGnssEnable_cmdHandler) {
   Gnss::GnssTester tester;
-  tester.testEnable();
+  tester.testGnssEnable_cmdHandler();
 }
 
-TEST(Nominal, testLatitude) {
+TEST(Nominal, testGnssRecv_handler_Gga) {
   Gnss::GnssTester tester;
-  tester.testLatitude();
+  tester.testGnssRecv_handler_Gga();
 }
 
-TEST(Nominal, testLongitude) {
+TEST(Nominal, testGnssRecv_handler_Rmc) {
   Gnss::GnssTester tester;
-  tester.testLongitude();
-}
-
-TEST(Nominal, testAltitude) {
-  Gnss::GnssTester tester;
-  tester.testAltitude();
-}
-
-TEST(Nominal, testGpsQuality) {
-  Gnss::GnssTester tester;
-  tester.testGpsQuality();
-}
-
-TEST(Nominal, testSpeed) {
-  Gnss::GnssTester tester;
-  tester.testSpeed();
-}
-
-TEST(Nominal, testHeading) {
-  Gnss::GnssTester tester;
-  tester.testHeading();
+  tester.testGnssRecv_handler_Rmc();
 }
 
 int main(int argc, char** argv) {
